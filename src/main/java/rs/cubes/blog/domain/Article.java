@@ -5,11 +5,14 @@ import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import rs.cubes.blog.dto.ArticleDTO;
 @Entity
 public class Article {
 	
@@ -19,7 +22,7 @@ public class Article {
 	private String title;
 	private String content;
 	private LocalDateTime created;
-	@ElementCollection
+	@ElementCollection(targetClass=String.class, fetch = FetchType.EAGER)
 	private Set<String>keywords;
 	private int ratingCounter;
 	private double averageCounter;
@@ -31,6 +34,16 @@ public class Article {
 	private Set<Comment>comments;
 	@OneToMany(mappedBy="article")
 	private Set<Rating>ratings;
+	
+	public Article() {}
+	
+	public Article(ArticleDTO article) {
+		this.title = article.getTitle();
+		this.content = article.getContent();
+		this.created = article.getCreated();
+		this.ratingCounter = article.getRatingCounter();
+		this.keywords = article.getKeywords();
+}
 	public long getId() {
 		return id;
 	}

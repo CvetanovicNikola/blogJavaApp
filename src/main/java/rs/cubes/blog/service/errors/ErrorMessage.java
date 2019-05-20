@@ -6,7 +6,7 @@ public class ErrorMessage {
 	private String message;
 	
 	
-	
+	 
 	public ErrorMessage(int code, String message) {
 		super();
 		this.code = code;
@@ -21,7 +21,7 @@ public class ErrorMessage {
 	public String getMessage() {
 		return message;
 	}
-	public void setMessage(String message) {
+	public void setMessage(String message) { 
 		this.message = message;
 	}
 	
@@ -50,3 +50,4 @@ public class ErrorMessage {
 	public static final ErrorMessage noSuchTag = new ErrorMessage(900, "There are no such tags.");
 	public static final ErrorMessage tagAlreadyExists = new ErrorMessage(901, "That tag already exists.");
 }
+ 

@@ -3,13 +3,16 @@ package rs.cubes.blog.domain;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-@Entity
-public class User {
+import rs.cubes.blog.dto.UserDTO;
 
+@Entity 
+public class User { 
+ 
 		@Id
 		@GeneratedValue
 		private long id;
@@ -20,12 +23,24 @@ public class User {
 		private String surname;
 		private String nickname;
 		
-		@OneToMany(mappedBy="user")
+		@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 		private Set<Article>articles;
-		@OneToMany(mappedBy="user")
+		@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 		private Set<Comment>comments;
-		@OneToMany(mappedBy="user")
+		@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 		private Set<Rating>ratings;
+		
+		public User() {}
+		
+		public User(UserDTO user) {
+			this.username = user.getUsername();
+			this.password = user.getPassword();
+			this.email = user.getEmail();
+			this.name = user.getName();
+			this.surname = user.getSurname();
+			this.nickname = user.getNickname();
+			
+		}
 		public long getId() {
 			return id;
 		}
@@ -85,6 +100,13 @@ public class User {
 		}
 		public void setRatings(Set<Rating> ratings) {
 			this.ratings = ratings;
+		}
+
+		@Override
+		public String toString() {
+			return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
+					+ ", name=" + name + ", surname=" + surname + ", nickname=" + nickname + ", articles=" + articles
+					+ ", comments=" + comments + ", ratings=" + ratings + "]";
 		}
 		
 		

@@ -1,4 +1,3 @@
-
 package rs.cubes.blog.rest;
 
 import java.util.HashSet;
@@ -17,48 +16,57 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import rs.cubes.blog.domain.Article;
 import rs.cubes.blog.domain.User;
-import rs.cubes.blog.dto.UserDTO;
+import rs.cubes.blog.dto.ArticleDTO;
+import rs.cubes.blog.rest.response.ArticleResponse;
+import rs.cubes.blog.rest.response.ArticlesResponse;
 import rs.cubes.blog.rest.response.RestResponse;
-import rs.cubes.blog.rest.response.UserResponse;
-import rs.cubes.blog.rest.response.UsersResponse;
 import rs.cubes.blog.service.ArticleService;
+import rs.cubes.blog.service.TagService;
 import rs.cubes.blog.service.UserService;
 import rs.cubes.blog.service.errors.AppException;
 import rs.cubes.blog.service.errors.ErrorMessage;
 
 
 
-@Path("user")
-public class UserResource {
+@Path("article")
+public class ArticleResource {
 	
 	@EJB
-	private UserService userService;
-	@EJB
 	private ArticleService articleService;
+	@EJB
+	private TagService tagService;
+	@EJB
+	private UserService userService;
 	
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public UserResponse createUser(UserDTO user) {
+	public ArticleResponse createArticle(ArticleDTO article) {
 		
-		UserResponse response = new UserResponse();
+		ArticleResponse response = new ArticleResponse();
 		
 		try {
-//			Set<Long> articleID = new HashSet<>();
-//			for(ArticleDTO a : user.getArticles()) {
-//				articleID.add(a.getId());
-//			}
-//			
-//			Set<Article> a = new HashSet<>();
-//			for(Long id: articleID) {
-//				a.add(articleService.getArticle(id));
+//			Set<Long> tagID = new HashSet<>();
+//			for(TagDTO t : article.getTags()) {
+//				if (t != null) {
+//				tagID.add(t.getId());
+//				}
 //			}
 			
-			User u = new User(user);
-			u = userService.createUser(u);
+			long userID = article.getUser().getId();
 			
-			response.setUser(new UserDTO(u));
+//			Set<Tag> t = new HashSet<>();
+//			for(Long id: tagID) {
+//				t.add(tagService.getTag(id));
+//			}
+			User u = userService.getUser(userID);
+			
+			Article a = new Article(article);
+			a = articleService.createArticle(a, u);
+			response.setArticle(new ArticleDTO(a));
+			
 			response.setErrorCode(ErrorMessage.ok);
 			return response;
 			
@@ -74,48 +82,48 @@ public class UserResource {
 		}	
 	}
 	
-//	@GET
-//	@Produces("application/json")
-//	public UsersResponse getAll(@QueryParam("user") String userParam, 
-//			@QueryParam("like") boolean likeParam) {
-//		
-//		UsersResponse response = new UsersResponse();
-//		
-//		try {
-//			List<User> u = userService.getAllUsers(userParam, likeParam);
-//			
-//			response.setUsers(u);
-//			response.setErrorCode(ErrorMessage.ok);
-//			return response;
-//			
-//		} catch(PersistenceException pe) {
-//			
-//			response.setErrorCode(ErrorMessage.dBError);
-//			return response;
-//			
-//		} catch(AppException ae) {
-//			
-//			response.setErrorCode(ae.getError());
-//			return response; 
-//		}
-//	}
+	@GET
+	@Produces("application/json")
+	public ArticlesResponse getAll(@QueryParam("article") String title, 
+			@QueryParam("like") boolean like) {
+		
+		ArticlesResponse response = new ArticlesResponse();
+		
+		try {
+			List<Article> a = articleService.getAllArticles(title, like);
+			
+			response.setArticles(a);
+			response.setErrorCode(ErrorMessage.ok);
+			return response;
+			
+		} catch(PersistenceException pe) {
+			
+			response.setErrorCode(ErrorMessage.dBError);
+			return response;
+			
+		} catch(AppException ae) {
+			
+			response.setErrorCode(ae.getError());
+			return response; 
+		}
+	}
 	
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public UserResponse getUser(@PathParam("id") long id) {
+	public ArticleResponse getArticle(@PathParam("id") long id) {
 		
-		UserResponse response = new UserResponse();
+		ArticleResponse response = new ArticleResponse();
 		
 		try {
-			User u = userService.getUser(id);
+			Article a = articleService.getArticleById(id);
 			
-			UserDTO uDTO = null;
-			if (u != null) {
-				uDTO = new UserDTO(u);
+			ArticleDTO aDTO = null;
+			if (a != null) {
+				aDTO = new ArticleDTO(a);
 			}
 			
-			response.setUser(uDTO);
+			response.setArticle(aDTO);
 			response.setErrorCode(ErrorMessage.ok);
 			return response;
 			
@@ -135,19 +143,19 @@ public class UserResource {
 	@Path("/{id}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public UserResponse updateUser(@PathParam("id") long id, User user) {
+	public ArticleResponse updateArticle(@PathParam("id") long id, Article article) {
 		
-		UserResponse response = new UserResponse();
+		ArticleResponse response = new ArticleResponse();
 		
 		try {
-			User u = userService.updateUser(id, user);
+			Article a = articleService.updateArticle(article, id);
 			
-			UserDTO uDTO = null;
-			if (u != null) {
-				uDTO = new UserDTO(u);
+			ArticleDTO aDTO = null;
+			if (a != null) {
+				aDTO = new ArticleDTO(a);
 			}
 			
-			response.setUser(uDTO);
+			response.setArticle(aDTO);
 			response.setErrorCode(ErrorMessage.ok);
 			return response;
 			
@@ -165,12 +173,12 @@ public class UserResource {
 	
 	@DELETE
 	@Path("/{id}")
-	public RestResponse deleteUser(@PathParam("id") long id) {
+	public RestResponse deleteArticle(@PathParam("id") long id) {
 		
 		RestResponse response = new RestResponse();
 		
 		try {
-			userService.deleteUser(id);
+			articleService.deleteArticle(id);
 			
 			response.setErrorCode(ErrorMessage.ok);
 			return response;

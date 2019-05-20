@@ -12,7 +12,7 @@ import rs.cubes.blog.service.errors.AppException;
 import rs.cubes.blog.service.errors.ErrorMessage;
 
 @Stateless
-public class UserService {
+public class UserService { 
 
 	@PersistenceContext
 	EntityManager em;
@@ -29,19 +29,25 @@ public class UserService {
 	em.persist(user);
 	return u;
 	}
-	public List<User> getAllUsers(String username, boolean like){
-		List<User>users = UserQueries.getAllUsers(em, username, like);
+	
+	//String username, boolean like
+	public List<User> getAllUsers(){
+		//, username, like
+		List<User>users = UserQueries.getAllUsers(em);
 		return users;
 	}
+	
 	public User getUser(long id) {
-		User u = em.find(User.class, id);
-		
+		User u = UserQueries.getUserById(em, id);
+
 		if(u == null) {
 			throw new AppException(ErrorMessage.noSuchUser);
 		}
 		
+	
 		return u;
 	}
+	
 	public User updateUser(long id, User user) {
 		if(user.getUsername().length() > 20) {
 			throw new AppException(ErrorMessage.usernameTooLong);

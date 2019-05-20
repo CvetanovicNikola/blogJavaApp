@@ -10,24 +10,24 @@ import rs.cubes.blog.service.errors.AppException;
 import rs.cubes.blog.service.errors.ErrorMessage;
 
 public class UserQueries {
-	
-	public static List<User> getAllUsers(EntityManager em, String username, boolean like){
+	//, String username, boolean like
+	public static List<User> getAllUsers(EntityManager em){
 		
-		if (like == true && username == null) {
-			throw new AppException(ErrorMessage.userDoesntExist);
-		}
+//		if (like == true && username == null) {
+//			throw new AppException(ErrorMessage.userDoesntExist);
+//		}
 		
 		String q = "select u from User u";
 		
-		if (username != null && like == false) {
-			q += "where u.username like concat('%', :username,'%')";
-					
-		}
+//		if (username != null && like == false) {
+//			q += "where u.username like concat('%', :username,'%')";
+//					
+//		}
 		TypedQuery<User>query = em.createQuery(q, User.class);
 		
-		if (username != null) {
-			query.setParameter("username", username);
-		}
+//		if (username != null) {
+//			query.setParameter("username", username);
+//		}
 		return query.getResultList();
 	}
 	public static User getUserById(EntityManager em, long id) {

@@ -9,7 +9,7 @@ import rs.cubes.blog.domain.Comment;
 import rs.cubes.blog.domain.User;
 
 public class CommentQUeries {
-	
+	 
 	public static List<Comment> getAllComments(EntityManager em){
 		
 		String q = "select c from Comment c";

@@ -19,6 +19,6 @@ public class RatingQueries {
 		return l;
 				
 	}
-	
+	 
 
 }

@@ -1,0 +1,61 @@
+<HTML xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
+
+	<h:head></h:head>
+
+	<h:body>
+		<h3>All Users</h3>
+		<h:form>
+		<p:dataTable value="#{user.allUsers}" var="userVar" binding="#{user.dataTable}">
+			
+			<p:column headerText="First Name" sortBy="#{userVar.name}" filterBy="#{userVar.name}">
+				
+			#{userVar.name}
+				
+			</p:column>
+		
+			<p:column headerText="Last Name" sortBy="#{userVar.surname}" filterBy="#{userVar.surname}"> 
+					
+					<h:outputLink value="userDetail.xhtml">
+						<f:param name="userId" value="#{userVar.id}"/>
+						#{userVar.surname}
+					</h:outputLink>
+			</p:column>
+			<p:column headerText="Nickname" sortBy="#{userVar.nickname}" filterBy="#{userVar.nickname}">
+				
+				#{userVar.nickname}
+			</p:column>
+			<p:column headerText="Username">
+				
+				#{userVar.username}
+			</p:column>
+			
+			<p:column headerText="Password">
+				
+				#{userVar.password}
+			</p:column>
+			
+			<p:column headerText="Email" sortBy="#{userVar.email}" filterBy="#{userVar.email}">
+				
+				#{userVar.email}
+			</p:column>
+							
+		
+		</p:dataTable>		
+	
+	</h:form>
+		<BR />
+		<p:button outcome="createUser.xhtml" value="Create a user" style="margin-right:20px;">
+			 <f:param name="productId" value="10" />
+		</p:button>
+		<BR />
+		<p:button outcome="index.xhtml" value="Home" style="margin-right:20px;">
+			 <f:param name="productId" value="10" />
+		</p:button>
+		
+	</h:body>
+
+
+</HTML>

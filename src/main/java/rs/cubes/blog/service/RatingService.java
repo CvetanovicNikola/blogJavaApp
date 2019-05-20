@@ -7,7 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import rs.cubes.blog.domain.Rating;
+import rs.cubes.blog.domain.User;
 import rs.cubes.blog.domain.queries.RatingQueries;
+import rs.cubes.blog.domain.queries.UserQueries;
 import rs.cubes.blog.service.errors.AppException;
 import rs.cubes.blog.service.errors.ErrorMessage;
 
@@ -18,7 +20,7 @@ public class RatingService {
 	EntityManager em;
 	
 	
-	
+	  
 	public Rating updateRating(long id, Rating rating) {
 		if(rating.getRating() < 0 || rating.getRating() > 5) {
 			throw new AppException(ErrorMessage.invalidRating);
@@ -37,7 +39,7 @@ public class RatingService {
 		em.persist(rating);
 		return rating;
 	}
-	public List<Rating> getAllRatings(EntityManager em){
+	public List<Rating> getAllRatings(){
 		List<Rating> ratings = RatingQueries.getAllRatings(em);
 		return ratings;
 	}
@@ -48,4 +50,11 @@ public class RatingService {
 		}
 		return r;
 	}
+	public void deleteRating(long id) {
+		Rating r = RatingQueries.getRatingById(em, id);
+			if (r == null) {
+				throw new AppException(ErrorMessage.noSuchRating);
+			}
+			em.remove(r);
+		}
 }

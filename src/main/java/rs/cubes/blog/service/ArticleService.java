@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import rs.cubes.blog.domain.Article;
+import rs.cubes.blog.domain.User;
 import rs.cubes.blog.domain.queries.ArticleQueries;
 import rs.cubes.blog.service.errors.AppException;
 import rs.cubes.blog.service.errors.ErrorMessage;
@@ -17,7 +18,7 @@ public class ArticleService {
 	@PersistenceContext
 	EntityManager em;
 	
-	public Article createArticle(Article article) {
+	public Article createArticle(Article article, User user) {
 		if(article.getTitle().length() > 50) {
 			throw new AppException(ErrorMessage.articleTitleTooLong);
 		}
@@ -49,7 +50,7 @@ public class ArticleService {
 		Article a = ArticleQueries.getArticleById(em, id);
 		
 		if (a == null) {
-			return createArticle(article);
+			return createArticle(article, article.getUser());
 		}
 		Article a1 = ArticleQueries.findArticleByTitle(em, article.getTitle());
 		
@@ -60,7 +61,7 @@ public class ArticleService {
 		return a;
 	}
 	
-	public void deleteCategory(long id) {
+	public void deleteArticle(long id) {
 		Article a = ArticleQueries.getArticleById(em, id);
 		if(a == null) {
 			throw new AppException(ErrorMessage.noSuchArticle);

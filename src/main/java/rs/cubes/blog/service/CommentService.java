@@ -14,7 +14,7 @@ public class CommentService {
 	
 	@PersistenceContext
 	EntityManager em;
-	
+	 
 	public Comment createComment(Comment comment) {
 		if(comment.getText().length() > 150) {
 			throw new AppException(ErrorMessage.commentTextTooLong);
@@ -47,5 +47,9 @@ public class CommentService {
 			throw new AppException(ErrorMessage.noSuchComment);
 		}
 		em.remove(c);
+	}
+	public List<Comment> getAll(String commentParam, boolean likeParam) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
