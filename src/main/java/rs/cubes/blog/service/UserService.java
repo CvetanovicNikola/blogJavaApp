@@ -21,6 +21,18 @@ public class UserService {
 		if (user.getUsername().length() > 20) {
 			throw new AppException(ErrorMessage.usernameTooLong);
 		}
+		if(user.getSurname().length() > 50) {
+			throw new AppException(ErrorMessage.userSurnameTooLong);
+		}
+		if (user.getNickname().length() > 20) {
+			throw new AppException(ErrorMessage.nicknameTooLong);
+		}
+		if (user.getName().length() > 30) {
+			throw new AppException(ErrorMessage.nameTooLong);
+		}
+		if (user.getPassword().length() < 8) {
+			throw new AppException(ErrorMessage.passwordTooShort);
+		}
 		User u = UserQueries.findUserByUsername(em, user.getUsername());
 	
 		if(u != null) {
@@ -72,5 +84,12 @@ public class UserService {
 			}
 			em.remove(u);
 		}
+	public User getUserByUsername(String username) {
+		User u = UserQueries.findUserByUsername(em, username);
+		if(u == null) {
+			throw new AppException(ErrorMessage.noSuchUser);
+		}
+		return u;
+	}
 	}
 

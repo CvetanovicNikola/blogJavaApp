@@ -8,7 +8,7 @@
 	<h:body>
 		<h3>All Users</h3>
 		<h:form>
-		<p:dataTable value="#{user.allUsers}" var="userVar" binding="#{user.dataTable}">
+		<p:dataTable value="#{user.allUsers}" var="userVar" >
 			
 			<p:column headerText="First Name" sortBy="#{userVar.name}" filterBy="#{userVar.name}">
 				

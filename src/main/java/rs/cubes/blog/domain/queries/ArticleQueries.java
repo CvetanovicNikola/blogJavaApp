@@ -9,24 +9,24 @@ import rs.cubes.blog.domain.Article;
 import rs.cubes.blog.service.errors.AppException;
 import rs.cubes.blog.service.errors.ErrorMessage;
 
-public class ArticleQueries {
+public class ArticleQueries {//, String title, boolean like
 	
-	public static List<Article> getAllArticles(EntityManager em, String title, boolean like){
+	public static List<Article> getAllArticles(EntityManager em){
 		
-		if(like == true && title == null) {
-			throw new AppException(ErrorMessage.noSuchArticle);
-		}
-		
+//		if(like == true && title == null) {
+//			throw new AppException(ErrorMessage.noSuchArticle);
+//		}
+//		
 		String q = "select a from Article a";
 		
-		if(title != null && like ==false) {
-			q += "where a.title like concat('%', :title,'%')";
-		}
+//		if(title != null && like ==false) {
+//			q += "where a.title like concat('%', :title,'%')";
+//		}
 		TypedQuery<Article> query = em.createQuery(q, Article.class);
 		
-		if(title != null) {
-			query.setParameter("title", title);
-		}
+//		if(title != null) {
+//			query.setParameter("title", title);
+//		}
 		return query.getResultList();
 	}
 	public static Article getArticleById(EntityManager em, long id) {

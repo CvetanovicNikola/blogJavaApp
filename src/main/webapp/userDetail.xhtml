@@ -17,32 +17,36 @@
 	<h:form id="userDetail">
     <p:fieldset id="userFields" legend="User details">
         <p:dataTable id="userData" var="userVar" value="#{user.userById}" >
-            <p:column style="width:20px">
-               
-            </p:column>
- 
-            <p:column headerText="Last name">
+          
+            <p:column headerText="Last name" width="30">
                 <h:outputText value="#{userVar.surname}" />
             </p:column>
  
-            <p:column headerText="Name">
+            <p:column headerText="Name" width="30">
                 <h:outputText value="#{userVar.name}" />
             </p:column>
  
-            <p:column headerText="Username">
+            <p:column headerText="Username" width="30">
                 <h:outputText value="#{userVar.nickname}" />
             </p:column>
  
-            <p:column headerText="Password">
+            <p:column headerText="Password" width="30">
                 <h:outputText value="#{userVar.password}" />
             </p:column>
-             <p:column headerText="Email">
+             <p:column headerText="Email" width="30">
                 <h:outputText value="#{userVar.email}" />
             </p:column>
+            <p:column style="width:20px">
+                    <p:commandButton value="Delete this user" action="#{user.deleteUser(userVar.id)}" />
+                        
+            </p:column>
+            
         </p:dataTable>
     </p:fieldset>
+    	
 	</h:form>
 	
+		<BR />
 	
 		<BR />
 		<p:button outcome="createUser.xhtml" value="Create a user" style="margin-right:20px;">

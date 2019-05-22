@@ -3,16 +3,32 @@
 	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:p="http://primefaces.org/ui">
 	  
+	  
+	  <h:head></h:head>
 	<body>
 	<h1>Welcome to the blog app!</h1>
-		<h1>User management system</h1>
+		<h1>#{user.message}</h1>
 		<BR />
-		<p:button outcome="createUser.xhtml" value="Create a user" style="margin-right:20px;">
-			 <f:param name="productId" value="10" />
+		<BR />
+		<BR />
+		<BR />
+		<BR />
+		<BR />
+		<BR />
+		<p:button outcome="allUsers.xhtml" value="View all users" style="margin-up:20px;">
+			
 		</p:button>
 		<BR />
-		<p:button outcome="allUsers.xhtml" value="View all users" style="margin-right:20px;">
-			 <f:param name="productId" value="10" />
+		<BR />
+		<BR />
+		<BR />
+		<BR />
+		<BR />
+		<p:button outcome="createArticle.xhtml" value="Write an article" style="margin-up:20px;">
+			 
+		</p:button>
+		<p:button outcome="allArticles.xhtml" value="View all articles" style="margin-right:20px;">
+			 
 		</p:button>
 	</body>
 	

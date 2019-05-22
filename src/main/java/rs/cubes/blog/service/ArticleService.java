@@ -30,8 +30,9 @@ public class ArticleService {
 		em.persist(article);
 		return article;
 	}
-	public List<Article> getAllArticles(String title, boolean like){
-		List<Article>articles = ArticleQueries.getAllArticles(em, title, like);
+	//String title, boolean like
+	public List<Article> getAllArticles(){//, title, like
+		List<Article>articles = ArticleQueries.getAllArticles(em);
 		return articles;
 	}
 	
@@ -50,7 +51,7 @@ public class ArticleService {
 		Article a = ArticleQueries.getArticleById(em, id);
 		
 		if (a == null) {
-			return createArticle(article, article.getUser());
+			//return createArticle(article, article.getUser());
 		}
 		Article a1 = ArticleQueries.findArticleByTitle(em, article.getTitle());
 		

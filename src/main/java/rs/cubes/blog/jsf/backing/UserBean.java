@@ -1,27 +1,25 @@
 package rs.cubes.blog.jsf.backing;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
+import javax.ejb.Stateless;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIData;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.ServiceUnavailableException;
-
 import rs.cubes.blog.domain.User;
 import rs.cubes.blog.service.UserService;
 import rs.cubes.blog.service.errors.AppException;
+import rs.cubes.blog.service.errors.ErrorMessage;
 
 
 @javax.faces.bean.ManagedBean(name="user")
+@SessionScoped
 
-public class UserBean {
+public class UserBean implements Serializable{
 	
 	
 	
@@ -44,12 +42,72 @@ public class UserBean {
 	@NotNull(message = "This field is mandatory!")
 	private String nickname;
 	
-	private UIData dataTable;
-	//private User selectedUser;
+	
 	private String userId;
 	private User user ;
+	private String message;
 	
+	private String usernameLogin;
+	private String passwordLogin;
 	
+	private User loggedUser;
+	
+	public String userLogin() {
+		try {
+			User u = userService.getUserByUsername(usernameLogin);
+			if (u.getPassword().equals(passwordLogin)) {
+				message = "You have logged in.";
+				loggedUser = u;
+				System.out.println(loggedUser.getName());
+				return "index.xhtml?faces-redirect=true";
+			}
+			else {
+				message = "Invalid password";
+				return "loginFailed?faces-redirect=true";
+			}
+			
+		}
+		catch (AppException e){
+			message = e.getError().getMessage();
+			System.out.println(message);
+			return "loginFailed?faces-redirect=true";
+		}
+		
+	}
+	
+
+	public User getLoggedUser() {
+		return loggedUser;
+	}
+
+
+	public void setLoggedUser(User loggedUser) {
+		this.loggedUser = loggedUser;
+	}
+
+
+	public String getUsernameLogin() {
+		return usernameLogin;
+	}
+
+
+
+	public void setUsernameLogin(String usernameLogin) {
+		this.usernameLogin = usernameLogin;
+	}
+
+
+
+	public String getPasswordLogin() {
+		return passwordLogin;
+	}
+
+
+
+	public void setPasswordLogin(String passwordLogin) {
+		this.passwordLogin = passwordLogin;
+	}
+
 
 
 	public User getUser() {
@@ -64,19 +122,20 @@ public class UserBean {
 		long id = Long.valueOf(userId);
 		return userService.getUser(id);
 	}
-	public UIData getDataTable() {
-		return dataTable;
-	}
-
-	public void setDataTable(UIData dataTable) {
-		this.dataTable = dataTable;
-	}
+//	public UIData getDataTable() {
+//		return dataTable;
+//	}
+//
+//	public void setDataTable(UIData dataTable) {
+//		this.dataTable = dataTable;
+//	}
 
 	public void setNiceDate(String niceDate) {
 		this.niceDate = niceDate;
 	}
 
 	public String createUser() {
+		
 		User u = new User();
 		
 		u.setUsername(username); 
@@ -89,9 +148,12 @@ public class UserBean {
 		
 		try {
 			userService.createUser(u);
+		
 			return "userDetail.jsf?userId=" + u.getId() + "&faces-redirect=true";
 			}
 		catch (AppException e){
+			message = e.getError().getMessage();
+			System.out.println(message);
 			return "userNotCreated?faces-redirect=true";
 		}
 			
@@ -103,11 +165,25 @@ public class UserBean {
 	
 	
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	public String getNiceDate() {
 		return niceDate;
 		}
 	
 
+	
+	public String deleteUser(String id) {
+		long userId = Long.valueOf(id);
+		userService.deleteUser(userId);
+		return "allUsers?faces-redirect=true";
+	}
 	
 	public String greetUser() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
