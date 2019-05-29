@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 import rs.cubes.blog.domain.User;
 import rs.cubes.blog.service.UserService;
@@ -16,8 +14,8 @@ import rs.cubes.blog.service.errors.AppException;
 import rs.cubes.blog.service.errors.ErrorMessage;
 
 
-@javax.faces.bean.ManagedBean(name="user")
-@SessionScoped
+@Named("user")
+@javax.enterprise.context.SessionScoped
 
 public class UserBean implements Serializable{
 	
@@ -58,7 +56,7 @@ public class UserBean implements Serializable{
 			if (u.getPassword().equals(passwordLogin)) {
 				message = "You have logged in.";
 				loggedUser = u;
-				System.out.println(loggedUser.getName());
+				//System.out.println(loggedUser.getName());
 				return "index.xhtml?faces-redirect=true";
 			}
 			else {
@@ -69,7 +67,7 @@ public class UserBean implements Serializable{
 		}
 		catch (AppException e){
 			message = e.getError().getMessage();
-			System.out.println(message);
+			//System.out.println(message);
 			return "loginFailed?faces-redirect=true";
 		}
 		

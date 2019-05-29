@@ -11,6 +11,11 @@ public class RESTApp extends Application{
 	@Override
 	public Set<Class<?>> getClasses() {
 		Set<Class<?>>resources = new HashSet<>();
+		resources.add(ArticleResource.class);
+		resources.add(CommentResource.class);
+		resources.add(RatingResource.class);
+		resources.add(TagResource.class);
+		resources.add(UserResource.class);
 		
 		return resources;
 	}

@@ -10,10 +10,8 @@
 		<h:form>
 		<p:dataTable value="#{article.allArticles}" var="articleVar" >
 			
-			<p:column headerText="Author" sortBy="" filterBy="">
-				
-			
-				
+			<p:column headerText="Author" sortBy="#{articleVar.user.username}" filterBy="#{articleVar.user.username}">
+				#{articleVar.user.username}
 			</p:column>
 		
 			<p:column headerText="Title" sortBy="#{articleVar.title}" filterBy="#{articleVar.title}"> 

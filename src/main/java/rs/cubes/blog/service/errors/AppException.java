@@ -20,6 +20,6 @@ public class AppException extends RuntimeException {
 		this.error = error;
 	}
 	
-	
+	 
 
 }

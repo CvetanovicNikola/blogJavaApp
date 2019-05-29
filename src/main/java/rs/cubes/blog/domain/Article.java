@@ -16,7 +16,7 @@ import rs.cubes.blog.dto.ArticleDTO;
 @Entity
 public class Article {
 	
-	@Id
+	@Id 
 	@GeneratedValue
 	private long id;
 	private String title;

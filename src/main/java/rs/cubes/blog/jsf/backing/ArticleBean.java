@@ -5,28 +5,25 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import rs.cubes.blog.domain.Article;
 import rs.cubes.blog.domain.User;
 import rs.cubes.blog.service.ArticleService;
 import rs.cubes.blog.service.errors.AppException;
 
-@SessionScoped
-@ManagedBean(name="article")
+@javax.enterprise.context.SessionScoped
+@Named("article")
 public class ArticleBean implements Serializable{
 
 	@EJB
 	ArticleService articleService;
 	
-	@ManagedProperty(value="#{userBean}")
-	private UserBean userBean;
+	@Inject
+	UserBean userBean;
 	
-	public UserBean getUserBean() {
-		return userBean;
-	}
+	
 	private String title;
 	private String content;
 	private LocalDateTime created;
@@ -35,9 +32,6 @@ public class ArticleBean implements Serializable{
 	private String articleId;
 	
 	
-	public void setUserBean(UserBean userBean) {
-		this.userBean = userBean;
-	}
 	
 	public Article getArticleById() {
 		long id = Long.valueOf(articleId);
@@ -46,7 +40,7 @@ public class ArticleBean implements Serializable{
 	public String createArticle() {
 		Article a = new Article();
 		a.setUser(userBean.getUser());
-		//System.out.println(userBean.getLoggedUser().getName());
+		System.out.println(userBean.getLoggedUser().getName());
 		a.setTitle(title);
 		a.setContent(content);
 		a.setCreated(created);

@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import rs.cubes.blog.domain.Article;
 import rs.cubes.blog.domain.User;
 import rs.cubes.blog.domain.queries.ArticleQueries;
+import rs.cubes.blog.domain.queries.UserQueries;
 import rs.cubes.blog.service.errors.AppException;
 import rs.cubes.blog.service.errors.ErrorMessage;
 
@@ -27,6 +28,8 @@ public class ArticleService {
 		if (a != null) {
 			throw new AppException(ErrorMessage.articleAlreadyExists);
 		}
+		User u = UserQueries.getUserById(em, user.getId());
+		article.setUser(u);
 		em.persist(article);
 		return article;
 	}

@@ -24,7 +24,7 @@ public class ErrorMessage {
 	public void setMessage(String message) { 
 		this.message = message;
 	}
-	
+	 
 	public static final ErrorMessage ok = new ErrorMessage(0, "Operation sucessful!");
 	public static final ErrorMessage dBError = new ErrorMessage(100, "Data base error!");
 	
